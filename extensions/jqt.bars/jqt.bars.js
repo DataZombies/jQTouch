@@ -224,13 +224,13 @@ console.log('  #' + $current_page.attr('id'));
 
             $wrapper = $('.s-scrollwrapper', this);
             $wrapper.height(parseInt(win.innerHeight + navbarH - toolbarH - tabbarH, 10));
-            $wrapper.css('margin-bottom', parseInt(toolbarH + tabbarH, 10) + 'px');
+            //$wrapper.css('margin-top', parseInt(toolbarH + tabbarH, 10) + 'px');
 console.log('  window.innerHeight = ' + win.innerHeight);
 console.log('  navbarH = ' + navbarH);
 console.log('  toolbarH = ' + toolbarH);
 console.log('  tabbarH = ' + tabbarH);
 console.log('  $wrapper.height = ' + $wrapper.height());
-console.log('  $wrapper.css(\'margin-bottom\') = ' + $wrapper.css('margin-bottom'));
+console.log('  $wrapper.css(\'margin-top\') = ' + $wrapper.css('margin-top'));
 
             refresh_iScroll($(this).data('iscroll'));
 console.log('End setPageHeight()');
