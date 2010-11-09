@@ -223,7 +223,7 @@ console.log('  #' + $current_page.attr('id'));
             tabbarH = $tabbar.length > 0 ? ($tabbar.css('display') !== 'none' ? $tabbar.outerHeight() : 0) : 0;
 
             $wrapper = $('.s-scrollwrapper', this);
-            $wrapper.height(parseInt(win.innerHeight - navbarH - toolbarH - tabbarH, 10));
+            $wrapper.height(parseInt(win.innerHeight + navbarH - toolbarH - tabbarH, 10));
             $wrapper.css('margin-bottom', parseInt(toolbarH + tabbarH, 10) + 'px');
 console.log('  window.innerHeight = ' + win.innerHeight);
 console.log('  navbarH = ' + navbarH);
