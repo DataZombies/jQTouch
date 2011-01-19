@@ -268,12 +268,12 @@ is not recognized, like...
 
           $tab_first.width($tab_first.width() - parseFloat($tab_first.css('margin-left'), 10));
           $tab_last.width($tab_last.width() - parseFloat($tab_last.css('margin-right'), 10));
-            
+
           if (refresh_iscroll) {
             if (scroll === null || typeof (scroll) === 'undefined') {
               $bar.data('iscroll', new iScroll($pane.attr('id'), {
                 bounceLock: true,
-                desktopCompatibility: true,
+                desktopCompatibility: false,
                 hScrollbar: false,
                 vScrollbar: false
               }));
@@ -337,7 +337,7 @@ is not recognized, like...
             console.log('    #' + this.id);
             scroll = new iScroll($('.s-scrollpane', this).attr('id'), {
               hScrollbar: false,
-              desktopCompatibility: true
+              desktopCompatibility: false
             });
             $(this).data('iscroll', scroll);
           }

@@ -1,14 +1,14 @@
 /**
- * 
+ *
  * Find more about the scrolling function at
  * http://cubiq.org/iscroll
  *
  * Copyright (c) 2010 Matteo Spinelli, http://cubiq.org/
  * Released under MIT license
  * http://cubiq.org/dropbox/mit-license.txt
- * 
+ *
  * Version 3.7.1 - Last updated: 2010.10.08
- * 
+ *
  */
 
 (function(){
@@ -39,7 +39,7 @@ function iScroll (el, options) {
 		scrollbarColor: 'rgba(0,0,0,0.5)',
 		onScrollEnd: function () {}
 	};
-	
+
 	// User defined options
 	if (typeof options == 'object') {
 		for (i in options) {
@@ -50,12 +50,12 @@ function iScroll (el, options) {
 	if (that.options.desktopCompatibility) {
 		that.options.overflow = 'hidden';
 	}
-	
+
 	that.onScrollEnd = that.options.onScrollEnd;
 	delete that.options.onScrollEnd;
-	
+
 	that.wrapper.style.overflow = that.options.overflow;
-	
+
 	that.refresh();
 
 	window.addEventListener('onorientationchange' in window ? 'orientationchange' : 'resize', that, false);
@@ -65,7 +65,7 @@ function iScroll (el, options) {
 		that.element.addEventListener(MOVE_EVENT, that, false);
 		that.element.addEventListener(END_EVENT, that, false);
 	}
-	
+
 	if (that.options.checkDOMChanges) {
 		that.element.addEventListener('DOMSubtreeModified', that, false);
 	}
@@ -78,7 +78,7 @@ iScroll.prototype = {
 
 	handleEvent: function (e) {
 		var that = this;
-		
+
 		switch (e.type) {
 			case START_EVENT:
 				that.touchStart(e);
@@ -101,7 +101,7 @@ iScroll.prototype = {
 				break;
 		}
 	},
-	
+
 	onDOMModified: function (e) {
 		var that = this;
 
@@ -121,7 +121,7 @@ iScroll.prototype = {
 		var that = this,
 			resetX = that.x, resetY = that.y,
 			snap;
-		
+
 		that.scrollWidth = that.wrapper.clientWidth;
 		that.scrollHeight = that.wrapper.clientHeight;
 		that.scrollerWidth = that.element.offsetWidth;
@@ -160,7 +160,7 @@ iScroll.prototype = {
 			that.setTransitionTime('0');
 			that.setPosition(resetX, resetY, true);
 		}
-		
+
 		that.scrollX = that.scrollerWidth > that.scrollWidth;
 		that.scrollY = !that.options.bounceLock && !that.scrollX || that.scrollerHeight > that.scrollHeight;
 
@@ -183,7 +183,7 @@ iScroll.prototype = {
 
 	setPosition: function (x, y, hideScrollBars) {
 		var that = this;
-		
+
 		that.x = x;
 		that.y = y;
 
@@ -199,13 +199,13 @@ iScroll.prototype = {
 			}
 		}
 	},
-	
+
 	setTransitionTime: function(time) {
 		var that = this;
-		
+
 		time = time || '0';
 		that.element.style.webkitTransitionDuration = time;
-		
+
 		if (that.scrollBarX) {
 			that.scrollBarX.bar.style.webkitTransitionDuration = time;
 			that.scrollBarX.wrapper.style.webkitTransitionDuration = has3d && that.options.fadeScrollbar ? '300ms' : '0';
@@ -215,18 +215,21 @@ iScroll.prototype = {
 			that.scrollBarY.wrapper.style.webkitTransitionDuration = has3d && that.options.fadeScrollbar ? '300ms' : '0';
 		}
 	},
-		
+
 	touchStart: function(e) {
 		var that = this,
 			matrix;
-		
+
 		if (!that.enabled) {
 			return;
 		}
 
-		e.preventDefault();
-//		e.stopPropagation(); //DZ Edit
-		
+		if (e.target.tagName != "SELECT") //dICK's Edit
+		{
+			e.preventDefault();
+			//e.stopPropagation(); //DZ Edit
+		}
+
 		that.scrolling = true;		// This is probably not needed, but may be useful if iScroll is used in conjuction with other frameworks
 
 		that.moved = false;
@@ -256,7 +259,7 @@ iScroll.prototype = {
 		that.directionX = 0;
 		that.directionY = 0;
 	},
-	
+
 	touchMove: function(e) {
 		if (!this.scrolling) {
 			return;
@@ -280,7 +283,7 @@ iScroll.prototype = {
 		if (newX >= 0 || newX < that.maxScrollX) {
 			newX = that.options.bounce ? Math.round(that.x + leftDelta / 3) : (newX >= 0 || that.maxScrollX>=0) ? 0 : that.maxScrollX;
 		}
-		if (newY >= 0 || newY < that.maxScrollY) { 
+		if (newY >= 0 || newY < that.maxScrollY) {
 			newY = that.options.bounce ? Math.round(that.y + topDelta / 3) : (newY >= 0 || that.maxScrollY>=0) ? 0 : that.maxScrollY;
 		}
 
@@ -305,7 +308,7 @@ iScroll.prototype = {
 //			that.dist+= Math.abs(leftDelta) + Math.abs(topDelta);
 		}
 	},
-	
+
 	touchEnd: function(e) {
 		if (!this.scrolling) {
 			return;
@@ -402,7 +405,7 @@ iScroll.prototype = {
 		} else if (that.y < that.maxScrollY) {
 			resetY = that.maxScrollY;
 		}
-		
+
 		if (resetX != that.x || resetY != that.y) {
 			that.scrollTo(resetX, resetY);
 		} else {
@@ -420,7 +423,7 @@ iScroll.prototype = {
 			}
 		}
 	},
-	
+
 	snap: function (x, y) {
 		var that = this, time;
 
@@ -461,7 +464,7 @@ iScroll.prototype = {
 				Math.abs(that.x - x) / that.scrollWidth * 500,
 				Math.abs(that.y - y) / that.scrollHeight * 500
 			));
-			
+
 		return { x: x, y: y, time: time };
 	},
 
@@ -483,7 +486,7 @@ iScroll.prototype = {
 			document.addEventListener('webkitTransitionEnd', that, false);	// At the end of the transition check if we are still inside of the boundaries
 		}
 	},
-	
+
 	scrollToPage: function (pageX, pageY, runtime) {
 		var that = this, snap;
 
@@ -547,7 +550,7 @@ iScroll.prototype = {
 			newDist = speed * speed / friction / 1000,
 			newTime = 0;
 
-		// Proportinally reduce speed if we are outside of the boundaries 
+		// Proportinally reduce speed if we are outside of the boundaries
 		if (dist > 0 && newDist > maxDistUpper) {
 			speed = speed * maxDistUpper / newDist / friction;
 			newDist = maxDistUpper;
@@ -555,17 +558,17 @@ iScroll.prototype = {
 			speed = speed * maxDistLower / newDist / friction;
 			newDist = maxDistLower;
 		}
-		
+
 		newDist = newDist * (dist < 0 ? -1 : 1);
 		newTime = speed / deceleration;
 
 		return { dist: Math.round(newDist), time: Math.round(newTime) };
 	},
-	
+
 	destroy: function (full) {
 		var that = this;
 
-		window.removeEventListener('onorientationchange' in window ? 'orientationchange' : 'resize', that, false);		
+		window.removeEventListener('onorientationchange' in window ? 'orientationchange' : 'resize', that, false);
 		that.element.removeEventListener(START_EVENT, that, false);
 		that.element.removeEventListener(MOVE_EVENT, that, false);
 		that.element.removeEventListener(END_EVENT, that, false);
@@ -582,11 +585,11 @@ iScroll.prototype = {
 		if (that.scrollBarY) {
 			that.scrollBarY = that.scrollBarY.remove();
 		}
-		
+
 		if (full) {
 			that.wrapper.parentNode.removeChild(that.wrapper);
 		}
-		
+
 		return null;
 	}
 };
@@ -594,7 +597,7 @@ iScroll.prototype = {
 function scrollbar (dir, wrapper, fade, shrink, color) {
 	var that = this,
 		doc = document;
-	
+
 	that.dir = dir;
 	that.fade = fade;
 	that.shrink = shrink;
@@ -656,10 +659,10 @@ scrollbar.prototype = {
 		that.toWrapperProp = that.maxScroll / (scroll - size);
 		that.bar.style[that.dir == 'horizontal' ? 'width' : 'height'] = that.size + 'px';
 	},
-	
+
 	setPosition: function (pos) {
 		var that = this;
-		
+
 		if (that.wrapper.style.opacity != '1') {
 			that.show();
 		}
@@ -698,7 +701,7 @@ scrollbar.prototype = {
 		}
 		this.wrapper.style.opacity = '0';
 	},
-	
+
 	remove: function () {
 		this.wrapper.parentNode.removeChild(this.wrapper);
 		return null;
