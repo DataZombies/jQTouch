@@ -499,8 +499,8 @@ is not recognized, like...
             path = $(this).attr('src');
             var i = path.indexOf('/jqt.bars.js');
             if (i > 0) {
-              path = path.substring(0, path.lastIndexOf('/') + 1);
-              return false;
+                path = path.substring(0, path.lastIndexOf('/') + 1);
+                return false;
             }
           });
           return path;
